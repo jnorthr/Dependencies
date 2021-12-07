@@ -1,11 +1,10 @@
-//package com.jnorthr
-class Finder {
-
+package com.jnorthr
+public class Finder {
     def keys = ["implementation","testImplementation","groovy","compile","jarLib","runtimeOnly","classpath","ivy","runtime","testCompile", "testRuntime","fred","asciidoclet","compileOnly","url","id"];
     //def lines;
-    String ln;
+    //String ln;
     boolean ok = false;          
-
+    def lines;
     
     public boolean hasComment(String ln) 
     { 
@@ -14,27 +13,26 @@ class Finder {
         return ok; 
     } // end of
     
-    public void search()
+    public void searcher(def fn)
     {
-        def fn = "/home/jnorthr/Dropbox/Projects/Constructor/build.gradle";
         def file = new File(fn);
-        def lines = file.readLines();        
-        lines.each{String line ->
-            print "... ->"
-            ln = line.trim();
-            if hasComment(ln) { print "||"; }
-            println line;
-        } // end of each
+        lines = file.readLines();
         
+        lines.eachWithIndex() {e, ix -> 
+            print "... ->";
+            def ln = e.trim().toString();
+            if (hasComment(ln))  { print "||"; } 
+            println e;
+        } // end of each    
     } // end of method
 
     // --------------------------------
-    static void main(String[] args) {
+    public static void main(String[] args) {
         println "--- start job ---"
         Finder e = new Finder();
-        e.search();
+        e.searcher("/home/jnorthr/Dropbox/Projects/Constructor/build.gradle");
         println "--- end of job ---"
     } // end of main
 
 } // end of class
-//------------------------
+
